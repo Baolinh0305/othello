@@ -1,0 +1,54 @@
+
+
+Version:	3.50
+CmdLine:	D:\PROJECTS\Othello\release\Othello.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	D:\PROJECTS\Othello\release\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	1.008.000
+Java max ver:	
+Substitute:	JAVA_HOME = D:\jdk-25
+Substitute:	PATH = C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\Program Files\Git\cmd;D:\nodejs\;D:\mingw64\bin;C:\Program Files\dotnet\;D:\maven\apache-maven-3.9.7\bin;D:\ffmpeg\bin;D:\LLVM\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\Program Files\Git\cmd;D:\nodejs\;D:\mingw64\bin;C:\Program Files\dotnet\;C:\Users\ngbal\.cargo\bin;D:\python\Scripts\;D:\python\;C:\Users\ngbal\AppData\Local\Programs\Python\Launcher\;C:\Users\ngbal\AppData\Local\Microsoft\WindowsApps;D:\vs code\bin;C:\Users\ngbal\AppData\Roaming\npm;D:\maven\apache-maven-3.9.7\bin;D:\Antigravity\bin;C:\Program Files\Java\jdk-25\bin
+JRE paths:	D:\jdk-25;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\Program Files\Git\cmd;D:\nodejs\;D:\mingw64\bin;C:\Program Files\dotnet\;D:\maven\apache-maven-3.9.7\bin;D:\ffmpeg\bin;D:\LLVM\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\Program Files\Git\cmd;D:\nodejs\;D:\mingw64\bin;C:\Program Files\dotnet\;C:\Users\ngbal\.cargo\bin;D:\python\Scripts\;D:\python\;C:\Users\ngbal\AppData\Local\Programs\Python\Launcher\;C:\Users\ngbal\AppData\Local\Microsoft\WindowsApps;D:\vs code\bin;C:\Users\ngbal\AppData\Roaming\npm;D:\maven\apache-maven-3.9.7\bin;D:\Antigravity\bin;C:\Program Files\Java\jdk-25\bin
+Check launcher:	D:\jdk-25\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\Common Files\Oracle\Java\javapath\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\system32\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\Wbem\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\WindowsPowerShell\v1.0\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\OpenSSH\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\Cloudflare\Cloudflare WARP\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\Git\cmd\bin\javaw.exe (not found)
+Check launcher:	D:\nodejs\bin\javaw.exe (not found)
+Check launcher:	D:\mingw64\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\dotnet\bin\javaw.exe (not found)
+Check launcher:	D:\maven\apache-maven-3.9.7\bin\javaw.exe (not found)
+Check launcher:	D:\ffmpeg\bin\javaw.exe (not found)
+Check launcher:	D:\LLVM\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\system32\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\Wbem\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\WindowsPowerShell\v1.0\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\OpenSSH\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\Cloudflare\Cloudflare WARP\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\Git\cmd\bin\javaw.exe (not found)
+Check launcher:	D:\nodejs\bin\javaw.exe (not found)
+Check launcher:	D:\mingw64\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\dotnet\bin\javaw.exe (not found)
+Check launcher:	C:\Users\ngbal\.cargo\bin\javaw.exe (not found)
+Check launcher:	D:\python\Scripts\bin\javaw.exe (not found)
+Check launcher:	D:\python\bin\javaw.exe (not found)
+Check launcher:	C:\Users\ngbal\AppData\Local\Programs\Python\Launcher\bin\javaw.exe (not found)
+Check launcher:	C:\Users\ngbal\AppData\Local\Microsoft\WindowsApps\bin\javaw.exe (not found)
+Check launcher:	D:\vs code\bin\javaw.exe (not found)
+Check launcher:	C:\Users\ngbal\AppData\Roaming\npm\bin\javaw.exe (not found)
+Check launcher:	D:\maven\apache-maven-3.9.7\bin\javaw.exe (not found)
+Check launcher:	D:\Antigravity\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe (OK)
+Version string: 1.025.000_001 / 64-Bit (OK)
+Launcher:	C:\Program Files\Java\jdk-25\bin\javaw.exe
+Launcher args:	-jar "D:\PROJECTS\Othello\release\Othello.exe"
+Args length:	46/32768 chars
+Exit code:	0
