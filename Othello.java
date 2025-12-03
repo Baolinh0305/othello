@@ -19,7 +19,7 @@ public class Othello extends JFrame {
     private Menu menuPanel;
 
     public Othello() {
-        setTitle("Othello Modern AI");
+        setTitle("Othello"); // Đã sửa từ "Othello Modern AI" thành "Othello"
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
 
@@ -104,9 +104,11 @@ public class Othello extends JFrame {
             subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 18));
             subtitle.setForeground(new Color(200, 200, 200));
 
-            Btn btnStart = new Btn("CHƠI VỚI AI");
+            // --- SỬA TẠI ĐÂY ---
+            Btn btnStart = new Btn("CHƠI"); // Đã sửa từ "CHƠI VỚI AI"
             btnStart.setPreferredSize(new Dimension(200, 50));
             btnStart.addActionListener(e -> frame.startGame());
+            // -------------------
 
             Btn btnExit = new Btn("THOÁT");
             btnExit.setPreferredSize(new Dimension(200, 50));
@@ -132,21 +134,27 @@ public class Othello extends JFrame {
     }
 
     // Board Panel
+    // ==========================================
+    // CLASS: GAME PANEL (Đã sửa lỗi AI đứng im)
+    // ==========================================
     class Board extends JPanel implements MouseListener {
         private Othello frame;
         private int[][] board;
         private int currentPlayer;
         private boolean isGameOver;
-        private AI ai;
+        private AIPlayer ai;
         private boolean isAIThinking = false;
 
-        private JPanel header;
+        // UI Components
+        private JPanel headerPanel;
         private JLabel scoreBlack, scoreWhite;
         private Btn btnBack;
 
-        private List<Anim> animDiscs = new ArrayList<>();
+        // Animation
+        private List<Anim> animatingDiscs = new ArrayList<>();
         private Timer animTimer;
 
+        // Heuristic Weights
         private final int[][] WEIGHTS = {
             {100, -20, 10,  5,  5, 10, -20, 100},
             {-20, -50, -2, -2, -2, -2, -50, -20},
@@ -160,12 +168,13 @@ public class Othello extends JFrame {
 
         public Board(Othello frame) {
             this.frame = frame;
-            this.ai = new AI(this);
+            this.ai = new AIPlayer(this);
             setLayout(new BorderLayout());
 
-            header = new JPanel(new BorderLayout());
-            header.setBackground(new Color(30, 30, 30));
-            header.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            // --- HEADER ---
+            headerPanel = new JPanel(new BorderLayout());
+            headerPanel.setBackground(new Color(30, 30, 30));
+            headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
             JPanel scorePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
             scorePanel.setOpaque(false);
@@ -173,7 +182,7 @@ public class Othello extends JFrame {
             scoreBlack = new JLabel("YOU: 2");
             scoreBlack.setFont(new Font("Segoe UI", Font.BOLD, 18));
             scoreBlack.setForeground(Color.WHITE);
-
+            
             scoreWhite = new JLabel("AI: 2");
             scoreWhite.setFont(new Font("Segoe UI", Font.BOLD, 18));
             scoreWhite.setForeground(Color.GRAY);
@@ -186,14 +195,21 @@ public class Othello extends JFrame {
             btnBack.setFont(new Font("Segoe UI", Font.BOLD, 12));
             btnBack.addActionListener(e -> frame.showMenu());
 
-            header.add(btnBack, BorderLayout.WEST);
-            header.add(scorePanel, BorderLayout.CENTER);
-            JLabel dummy = new JLabel("");
-            dummy.setPreferredSize(new Dimension(80, 30));
-            header.add(dummy, BorderLayout.EAST);
+            headerPanel.add(btnBack, BorderLayout.WEST);
+            headerPanel.add(scorePanel, BorderLayout.CENTER);
+            // --- THAY ĐỔI: Thêm nút RESET vào bên phải (Không hỏi xác nhận) ---
+            Btn btnRestart = new Btn("RESET");
+            btnRestart.setPreferredSize(new Dimension(80, 30));
+            btnRestart.setFont(new Font("Segoe UI", Font.BOLD, 12));
+            // Bấm là reset ngay lập tức
+            btnRestart.addActionListener(e -> resetGame());
 
-            add(header, BorderLayout.NORTH);
+            headerPanel.add(btnRestart, BorderLayout.EAST);
+            // -----------------------------------------------------------------
 
+            add(headerPanel, BorderLayout.NORTH);
+
+            // --- BOARD WRAPPER ---
             JPanel boardWrapper = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
@@ -206,17 +222,18 @@ public class Othello extends JFrame {
             boardWrapper.addMouseListener(this);
             add(boardWrapper, BorderLayout.CENTER);
 
+            // Animation Timer
             animTimer = new Timer(16, e -> {
                 boolean finished = true;
-                Iterator<Anim> it = animDiscs.iterator();
+                Iterator<Anim> it = animatingDiscs.iterator();
                 while(it.hasNext()){
                     Anim d = it.next();
                     d.update();
                     if(!d.isDone) finished = false;
                 }
                 repaint();
-                if(finished && !animDiscs.isEmpty()) {
-                    animDiscs.clear();
+                if(finished && !animatingDiscs.isEmpty()) {
+                    animatingDiscs.clear();
                 }
             });
         }
@@ -227,11 +244,11 @@ public class Othello extends JFrame {
             board[3][4] = BLACK;
             board[4][3] = BLACK;
             board[4][4] = WHITE;
-
+            
             currentPlayer = BLACK;
             isGameOver = false;
             isAIThinking = false;
-            animDiscs.clear();
+            animatingDiscs.clear();
             updateScoreUI();
             repaint();
         }
@@ -285,7 +302,7 @@ public class Othello extends JFrame {
             for (int r = 0; r < SIZE; r++) {
                 for (int c = 0; c < SIZE; c++) {
                     boolean isAnimating = false;
-                    for(Anim ad : animDiscs) {
+                    for(Anim ad : animatingDiscs) {
                         if(ad.r == r && ad.c == c) {
                             isAnimating = true;
                             drawDisc(g2, xOffset + c * cellSize, yOffset + r * cellSize, cellSize, ad.currentColor, ad.scaleX);
@@ -323,6 +340,7 @@ public class Othello extends JFrame {
         @Override
         public void mousePressed(MouseEvent e) {
             if (isGameOver || currentPlayer != BLACK || isAIThinking) return;
+
             int w = getComponent(1).getWidth();
             int h = getComponent(1).getHeight();
             int boardSize = Math.min(w, h) - 40;
@@ -336,39 +354,58 @@ public class Othello extends JFrame {
             if (row >= 0 && row < SIZE && col >= 0 && col < SIZE) {
                 if (isValidMove(board, BLACK, row, col)) {
                     executeMove(BLACK, row, col);
-                    currentPlayer = WHITE;
-                    isAIThinking = true;
-                    updateScoreUI();
-                    repaint();
-
-                    new Thread(() -> {
-                        try { Thread.sleep(700); } catch (Exception ex) {}
-                        if (hasValidMove(board, WHITE)) {
-                            Point aiMove = ai.getBestMove(board);
-                            if (aiMove != null) {
-                                executeMove(WHITE, aiMove.x, aiMove.y);
-                            }
-                        }
-                        if (hasValidMove(board, BLACK)) {
-                            currentPlayer = BLACK;
-                        } else if (hasValidMove(board, WHITE)) {
-                            currentPlayer = WHITE;
-                            SwingUtilities.invokeLater(() -> {
-                                JOptionPane.showMessageDialog(this, "Bạn hết nước đi! AI đi tiếp.");
-                                mousePressed(e);
-                            });
-                        } else {
-                            checkGameOver();
-                        }
-                        isAIThinking = false;
-                        SwingUtilities.invokeLater(() -> {
-                            updateScoreUI();
-                            repaint();
-                            checkGameOver();
-                        });
-                    }).start();
+                    
+                    // Sau khi người đi xong, kích hoạt lượt AI
+                    startAITurn();
                 }
             }
+        }
+
+        // --- HÀM MỚI: Xử lý lượt đi của AI ---
+        private void startAITurn() {
+            currentPlayer = WHITE;
+            isAIThinking = true;
+            updateScoreUI();
+            repaint();
+
+            // Chạy AI trong luồng riêng
+            new Thread(() -> {
+                try { Thread.sleep(700); } catch (Exception ex) {}
+                
+                // AI thực hiện tính toán và đi
+                if (hasValidMove(board, WHITE)) {
+                    Point aiMove = ai.getBestMove(board);
+                    if (aiMove != null) {
+                        executeMove(WHITE, aiMove.x, aiMove.y);
+                    }
+                }
+
+                // --- KIỂM TRA LƯỢT TIẾP THEO ---
+                if (hasValidMove(board, BLACK)) {
+                    // Nếu người chơi có nước đi -> Trả lượt về cho người chơi
+                    currentPlayer = BLACK;
+                    isAIThinking = false;
+                    SwingUtilities.invokeLater(() -> {
+                        updateScoreUI();
+                        repaint();
+                    });
+                } else if (hasValidMove(board, WHITE)) {
+                    // Nếu người chơi KHÔNG có nước đi, nhưng AI CÓ -> AI đi tiếp
+                    // Không đổi currentPlayer về BLACK, vẫn giữ WHITE
+                    SwingUtilities.invokeLater(() -> {
+                        updateScoreUI();
+                        repaint(); // Cập nhật bàn cờ trước khi hiện thông báo
+                        JOptionPane.showMessageDialog(this, "Bạn không có nước đi! AI đi tiếp.");
+                        
+                        // Đệ quy gọi lại hàm này để AI đi tiếp
+                        startAITurn();
+                    });
+                } else {
+                    // Cả 2 đều không có nước đi -> Game Over
+                    isAIThinking = false;
+                    SwingUtilities.invokeLater(this::checkGameOver);
+                }
+            }).start();
         }
 
         private void executeMove(int player, int r, int c) {
@@ -377,6 +414,7 @@ public class Othello extends JFrame {
             int[] dr = {-1, -1, -1, 0, 0, 1, 1, 1};
             int[] dc = {-1, 0, 1, -1, 1, -1, 0, 1};
             List<Point> flippedPoints = new ArrayList<>();
+
             for (int i = 0; i < 8; i++) {
                 int nr = r + dr[i];
                 int nc = c + dc[i];
@@ -392,22 +430,37 @@ public class Othello extends JFrame {
             }
             for (Point p : flippedPoints) {
                 board[p.x][p.y] = player;
-                animDiscs.add(new Anim(p.x, p.y, opponent, player));
+                animatingDiscs.add(new Anim(p.x, p.y, opponent, player));
             }
             animTimer.start();
             SwingUtilities.invokeLater(this::repaint);
         }
 
         private void checkGameOver() {
-            if (!hasValidMove(board, BLACK) && !hasValidMove(board, WHITE)) {
-                isGameOver = true;
-                int b = countScore(board, BLACK);
-                int w = countScore(board, WHITE);
-                String msg = (b > w) ? "BẠN THẮNG!" : (w > b) ? "AI THẮNG!" : "HÒA!";
-                JOptionPane.showMessageDialog(this, msg + "\nBạn: " + b + " - AI: " + w);
+            isGameOver = true;
+            int b = countScore(board, BLACK);
+            int w = countScore(board, WHITE);
+            String msg = (b > w) ? "BẠN THẮNG!" : (w > b) ? "AI THẮNG!" : "HÒA!";
+
+            // Hộp thoại lựa chọn khi kết thúc
+            Object[] options = {"Chơi lại", "Về Menu"};
+            int choice = JOptionPane.showOptionDialog(this,
+                    msg + "\nTỉ số: Bạn " + b + " - AI " + w,
+                    "Kết thúc",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (choice == 0) {
+                resetGame(); // Chọn chơi lại -> Reset ngay
+            } else {
+                frame.showMenu(); // Chọn Về Menu
             }
         }
 
+        // --- Logic Othello & AI (Giữ nguyên) ---
         public boolean isValidMove(int[][] currentBoard, int player, int r, int c) {
             if (currentBoard[r][c] != EMPTY) return false;
             int opponent = (player == BLACK) ? WHITE : BLACK;
@@ -434,12 +487,12 @@ public class Othello extends JFrame {
         public int countScore(int[][] b, int p) {
             int s = 0; for(int[] r: b) for(int v: r) if(v==p) s++; return s;
         }
-
-        // AI class
-        class AI {
+        
+        // CLASS AIPlayer (Giữ nguyên)
+        class AIPlayer {
             Board g;
             int maxDepth = 6;
-            public AI(Board g) { this.g = g; }
+            public AIPlayer(Board g) { this.g = g; }
             public Point getBestMove(int[][] board) {
                 List<Point> moves = g.getValidMoves(board, WHITE);
                 Point best = null; int maxVal = Integer.MIN_VALUE, alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
@@ -487,7 +540,7 @@ public class Othello extends JFrame {
                 return s;
             }
         }
-
+        
         private int[][] cloneBoard(int[][] src) {
             int[][] d = new int[SIZE][SIZE]; for(int i=0;i<SIZE;i++) System.arraycopy(src[i], 0, d[i], 0, SIZE); return d;
         }
